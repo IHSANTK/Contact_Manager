@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Manager</title>
+  <!-- React and ReactDOM from CDN -->
+  <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX transformation (for development use only) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- CSS for styling -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: rgb(0, 35, 80);
+    }
+    .contact-list {
+      max-width: 500px;
+      margin: auto;
+      background-color: rgb(8, 68, 68);
+      box-shadow: 0px  0px 6px black;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .contact-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    input{
+        border-radius: 7px;
+        margin-left: 5px;
+        height: 25px;
+        border: none;
+        outline: none;
+        padding-left: 10px;
+    }
+    button {
+      padding: 5px 10px;
+      margin-left: 5px;
+      background-color: azure;
+      border-radius: 5px;
+      border: none;
+    }
+    ul{
+        margin-right: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+   
+    const ContactManager = () => {
+      const [contacts, setContacts] = React.useState([]);
+      const [name, setName] = React.useState('');
+      const [phone, setPhone] = React.useState('');
+
+  
+      const addContact = () => {
+        if (name.trim() && phone.trim()) {
+          setContacts([...contacts, { name, phone }]);
+          setName('');
+          setPhone('');
+        }
+      };
+
+      const removeContact = (index) => {
+        const updatedContacts = contacts.filter((_, i) => i !== index);
+        setContacts(updatedContacts);
+      };
+
+      return (
+        <div className="contact-list">
+          <h1>Contact Manager</h1>
+          <input 
+            type="text" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            placeholder="Name" 
+          />
+          <input 
+            type="number" 
+            value={phone} 
+            onChange={(e) => setPhone(e.target.value)} 
+            placeholder="Phone Number" 
+          />
+          <button onClick={addContact}>Add Contact</button>
+          <ul>
+            {contacts.map((contact, index) => (
+              <li key={index} className="contact-item">
+                <span>{contact.name} - {contact.phone}</span>
+                <button onClick={() => removeContact(index)}>Remove</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<ContactManager />, document.getElementById('root'));
+  </script>
+</body>
+</html>
